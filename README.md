@@ -1,11 +1,9 @@
 # Automatic Machine Fault Detection from Acoustic Data using Deep Learning
 
 ## Overview
-
 This project implements an automated fault detection framework for electrical machines by analyzing audio signals. The system extracts time–frequency features—such as MFCCs, STFT magnitude, and phase—from audio recordings, transforms them into image representations (square spectrogram images), and classifies them using a convolutional neural network (CNN). The approach is designed to provide a non-invasive, cost-effective solution for detecting common machine faults like Arcing, Corona, Looseness, and Tracking.
 
 ## Table of Contents
-
 - [Project Description](#project-description)
 - [Dataset Details](#dataset-details)
 - [Installation and Setup](#installation-and-setup)
@@ -17,28 +15,37 @@ This project implements an automated fault detection framework for electrical ma
 - [License](#license)
 
 ## Project Description
-
 This project focuses on detecting faults in electrical machines by leveraging audio signal processing and deep learning techniques. The key steps include:
 
 - **Data Collection:** Audio files are gathered from a Google Drive folder. The dataset (provided as a ZIP file) contains recordings labeled with one of four fault types: Arcing, Corona, Looseness, or Tracking.
-- **Feature Extraction:** 
-  - Audio signals are segmented into short overlapping chunks (e.g., 0.35 seconds with 20% overlap).
-  - For each segment, features are extracted using:
-    - **MFCCs:** Capturing the spectral envelope (typically 13 coefficients).
-    - **STFT:** Calculating the magnitude (converted to decibels) and phase information.
+- **Feature Extraction:**  
+  - Audio signals are segmented into short overlapping chunks (e.g., 0.35 seconds with 20% overlap).  
+  - For each segment, features are extracted using:  
+    - **MFCCs:** Capturing the spectral envelope (typically 13 coefficients).  
+    - **STFT:** Calculating the magnitude (converted to decibels) and phase information.  
   - Each feature matrix is resized to a square format (e.g., 64×64 pixels) using interpolation to ensure consistency for CNN input.
 - **Data Augmentation:** Augmentation techniques such as time stretching, pitch shifting, and noise addition are applied to enhance dataset diversity and improve model robustness.
 - **CNN Model Training:** The extracted and preprocessed feature images are used to train a CNN architecture that includes multiple convolutional and pooling layers, dropout for regularization, and dense layers for classification.
 - **Performance Evaluation:** The model’s performance is evaluated using training/validation metrics and visualized through plots and a confusion matrix.
 
 ## Dataset Details
-
 - **Source:** The dataset is provided as a ZIP archive and stored on Google Drive.
 - **Organization:** Audio files are organized into subfolders based on the fault type labels (Arcing, Corona, Looseness, Tracking). File names include keywords that are used to automatically classify the recordings.
 - **Data Format:** The audio recordings are in formats such as WAV, MP3, or FLAC.
 
-## Installation and Setup
+### Sample Images from Each Class
+Below are three sample images (feature representations) from each fault class after preprocessing:
 
+| Class    | Sample 1                                                         | Sample 2                                                         | Sample 3                                                         |
+|----------|------------------------------------------------------------------|------------------------------------------------------------------|------------------------------------------------------------------|
+| **Arcing**    | ![Arcing Sample 1](images/arcing_sample_1.png) <br/> *Figure: Arcing #1* | ![Arcing Sample 2](images/arcing_sample_2.png) <br/> *Figure: Arcing #2* | ![Arcing Sample 3](images/arcing_sample_3.png) <br/> *Figure: Arcing #3* |
+| **Corona**    | ![Corona Sample 1](images/corona_sample_1.png) <br/> *Figure: Corona #1* | ![Corona Sample 2](images/corona_sample_2.png) <br/> *Figure: Corona #2* | ![Corona Sample 3](images/corona_sample_3.png) <br/> *Figure: Corona #3* |
+| **Looseness** | ![Looseness Sample 1](images/looseness_sample_1.png) <br/> *Figure: Looseness #1* | ![Looseness Sample 2](images/looseness_sample_2.png) <br/> *Figure: Looseness #2* | ![Looseness Sample 3](images/looseness_sample_3.png) <br/> *Figure: Looseness #3* |
+| **Tracking**  | ![Tracking Sample 1](images/tracking_sample_1.png) <br/> *Figure: Tracking #1* | ![Tracking Sample 2](images/tracking_sample_2.png) <br/> *Figure: Tracking #2* | ![Tracking Sample 3](images/tracking_sample_3.png) <br/> *Figure: Tracking #3* |
+
+These images illustrate the visual representations of the audio segments after applying MFCC, STFT magnitude (in dB), and phase features.
+
+## Installation and Setup
 Follow these steps to set up the project on your local machine or Google Colab:
 
 1. **Clone the Repository:**
@@ -73,7 +80,6 @@ Follow these steps to set up the project on your local machine or Google Colab:
      ```
 
 ## Usage Instructions
-
 1. **Data Preprocessing:**
    - Organize audio files into subfolders based on fault type (Arcing, Corona, Looseness, Tracking).
    - Segment the audio recordings into overlapping chunks.
@@ -90,10 +96,9 @@ Follow these steps to set up the project on your local machine or Google Colab:
    - Encode class labels and split the dataset into training, validation, and test sets.
    - Build and compile the CNN using TensorFlow/Keras.
    - Train the model using the training set and monitor the performance on the validation set.
-   - Evaluate the model’s accuracy and generate performance visualizations (loss curves, accuracy curves, confusion matrix).
+   - Evaluate the model’s accuracy and generate performance visualizations (loss curves, accuracy curves, confusion matrix, etc.).
 
 ## Code Structure
-
 The project code is organized as follows:
 
 - **Data Acquisition & Preprocessing:**
@@ -114,13 +119,50 @@ The project code is organized as follows:
 
 ## Project Results
 
-- **Performance:** The CNN model achieved a test accuracy of approximately 80.76%.
-- **Visualizations:** The project includes training and validation accuracy/loss plots, as well as a confusion matrix that illustrates the performance across the four fault types.
-- **Insights:** The results demonstrate that the proposed method of combining spectrogram analysis with CNN-based classification is effective for machine fault detection. Certain fault classes, such as Tracking, showed slightly lower recall, indicating areas for further improvement.
+### CNN Architecture Diagram
+Below is the CNN architecture diagram generated by the code:
+
+![CNN Architecture](images/cnn_architecture.png)  
+*Figure: CNN architecture with multiple Conv2D layers, pooling layers, and dense layers.*
+
+### Loss and Accuracy Graphs
+After training for 20 epochs, the following graphs illustrate how the training and validation loss/accuracy evolved:
+
+![Loss and Accuracy](images/loss_accuracy.png)  
+*Figure: Training and validation loss (left), and training and validation accuracy (right).*
+
+### Confusion Matrix
+The confusion matrix below provides insight into the classification performance across the four fault classes:
+
+![Confusion Matrix](images/confusion_matrix.png)  
+*Figure: Rows represent actual classes, columns represent predicted classes.*
+
+### Multiclass ROC Curve
+We also compute the ROC curve for each class, along with the AUC (Area Under the Curve) values:
+
+![Multiclass ROC](images/multiclass_roc.png)  
+*Figure: ROC curves for Arcing, Corona, Looseness, and Tracking classes.*
+
+### Precision-Recall Curves
+Here are the precision-recall curves for each class, illustrating the trade-off between precision and recall:
+
+![Precision-Recall Curves](images/precision_recall.png)  
+*Figure: Precision-Recall curves for the four classes.*
+
+### Feature Maps from the First Convolutional Layer
+Finally, we visualize feature maps from the first convolutional layer for a sample test image:
+
+![Feature Maps](images/feature_maps_layer1.png)  
+*Figure: Activation maps for the first convolutional layer, showing how the network responds to different spatial patterns.*
+
+---
+
+- **Performance:** The CNN model achieved a test accuracy of approximately 80.76% (or ~83%, depending on the final training run).  
+- **Insights:** These results demonstrate that converting audio signals into spectrogram-like images combined with CNN-based classification is effective for machine fault detection. Some fault classes, such as Tracking, can show slightly lower recall, suggesting potential for further refinements.
 
 ## Conclusions and Future Work
 
-- **Conclusions:** The project successfully demonstrates a non-invasive method for detecting machine faults using audio signal processing and deep learning. The conversion of audio signals to image representations combined with data augmentation and CNN training yields a robust fault detection system.
+- **Conclusions:** The project successfully demonstrates a non-invasive method for detecting machine faults using audio signal processing and deep learning. The conversion of audio signals to image representations, combined with data augmentation and CNN training, yields a robust fault detection system.
 - **Future Work:** Potential enhancements include:
   - Experimenting with deeper or alternative network architectures.
   - Implementing additional feature extraction techniques.
@@ -133,12 +175,11 @@ The project code is organized as follows:
   - Hanzala Khalid (2021-SE-05)  
   - Ahtsham ul Haq (2021-SE-25)  
   - Abdullah Shahid (2021-SE-32)
-- **Supervision:** Engr. Dr. Ahmad Khawaja
-- **Libraries and Tools:** TensorFlow, Librosa, OpenCV, Scikit-learn, Matplotlib, Seaborn, and Google Colab.
+
+- **Supervision:** Engr. Dr. Ahmad Khawaja  
+- **Libraries and Tools:** TensorFlow, Librosa, OpenCV, Scikit-learn, Matplotlib, Seaborn, and Google Colab.  
 - **Special Thanks:** Acknowledgment to the contributors and open-source communities for the tools and libraries used in this project.
 
 ## License
-
 This project is licensed under the [MIT License](LICENSE).
-
----
+```
