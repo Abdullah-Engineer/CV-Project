@@ -143,6 +143,13 @@ The confusion matrix below provides insight into the classification performance 
 ![Confusion Matrix](images/confusion_matrix.png)  
 *Figure: Rows represent actual classes, columns represent predicted classes.*
 
+### Classification Report
+The classification report below provides insights into the classification performance across the four fault classes:
+
+![Classification Report](images/classification_report.png)  
+*Figure: Rows represent actual classes, and columns represent predicted classes.*
+
+
 ### Multiclass ROC Curve
 We also compute the ROC curve for each class, along with the AUC (Area Under the Curve) values:
 
@@ -188,4 +195,3 @@ Finally, we visualize feature maps from the first convolutional layer for a samp
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
-```
